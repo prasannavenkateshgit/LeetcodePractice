@@ -23,14 +23,28 @@ Output: 0
 '''
 class Solution:
     def coinChange(self, coins: List[int], amount: int) -> int:
-        n=amount+1
-        dp=[amount+1]*n
-        dp[0]=0
-        for i in range(1,n):
+        # n=amount+1
+        # dp=[amount+1]*n
+        # dp[0]=0
+        # for i in range(1,n):
+        #     for j in coins:
+        #         if i-j>=0:
+        #             dp[i]=min(dp[i],dp[i-j]+1)
+        # if dp[amount]==amount+1:
+        #     return -1
+        # else:
+        #     return dp[amount]
+        def dp(i):
+            if i<=0:
+                return 0
+            if i in memo:
+                return memo[i]
+            ans=amount+1
             for j in coins:
                 if i-j>=0:
-                    dp[i]=min(dp[i],dp[i-j]+1)
-        if dp[amount]==amount+1:
-            return -1
-        else:
-            return dp[amount]
+                    ans=min(ans,dp(i-j)+1)
+            memo[i]=ans
+            return memo[i]
+        memo={}
+        ans=dp(amount)
+        return ans if ans!= amount+1 else -1
